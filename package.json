@@ -6,8 +6,8 @@
   "scripts": {
     "test": "jest",
     "watch": "jest --watch src/*.js",
-    "start": "node_modules/nodemon/bin/nodemon.js index.js --port=8080 --exec \"npm run watch\"",
-    "lint": "node_modules/eslint/bin/eslint.js ."
+    "start": "nodemon index.js --port=8080 --exec \"npm run watch\"",
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",
