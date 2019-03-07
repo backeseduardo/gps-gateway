@@ -4,8 +4,9 @@
   "description": "Simple solution for handling gps tcp connections",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node_modules/nodemon/bin/nodemon.js index.js --port=8080",
+    "test": "jest",
+    "watch": "jest --watch src/*.js",
+    "start": "node_modules/nodemon/bin/nodemon.js index.js --port=8080 --exec \"npm run watch\"",
     "lint": "node_modules/eslint/bin/eslint.js ."
   },
   "repository": {
