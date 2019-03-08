@@ -8,15 +8,13 @@ module.exports = (deps) => (conn) => ({
         reject('data could not be parsed');
       
       setTimeout(() => {
-        console.log(parsedData);
-        resolve();
+        resolve(parsedData);
       }, 2000);
     });
   },
 
   end() {
     return new Promise((resolve, reject) => {
-      console.log('ending device');
       setTimeout(() => {
         resolve();
       }, 2000);
@@ -29,7 +27,7 @@ module.exports = (deps) => (conn) => ({
     // from here to bellow its just to fake the behavior
     const str = data.toString('utf8');
     const verificationString =  str.substring(0, 2);
-    const packageString = str.substring(2, str.length - 1);
+    const packageString = str.substring(2, str.length);
 
     if (verificationString !== '01')
       return false;
