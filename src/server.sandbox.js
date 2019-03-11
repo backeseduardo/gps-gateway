@@ -1,5 +1,4 @@
 const net = require('net');
-const serverFactory = require('./server.factory');
+const server = require('./server');
 
-const server = serverFactory({ net });
-server(8080);
+server({ net })(8080);
