@@ -2,7 +2,7 @@
 describe('server.test.js', () => {
 
   it('expect server to be initialized properly', () => {
-    const serverFactory = require('./server.factory');
+    const server = require('./server');
     const fakeListen = jest.fn();
     const fakeCreateServer = jest.fn(() => ({
       listen: () => {
@@ -12,8 +12,7 @@ describe('server.test.js', () => {
     const net = {
       createServer: jest.fn(() => fakeCreateServer())
     };
-    const server = serverFactory({ net });
-    server(8080);
+    server({ net })(8080);
 
     expect(fakeCreateServer).toHaveBeenCalled();
     expect(fakeListen).toHaveBeenCalled();

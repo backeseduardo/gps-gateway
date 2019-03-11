@@ -3,7 +3,7 @@ describe('device.test.js', () => {
 
   let device = null;
   beforeEach(() => {
-    device = require('./device.factory')({ })();
+    device = require('./device')({ })();
   });
 
   it('expect onData return parsed data', () => {
