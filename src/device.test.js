@@ -2,8 +2,9 @@
 describe('device.test.js', () => {
 
   let device = null;
+  let adapter = require('./adapter/adapter01')()
   beforeEach(() => {
-    device = require('./device')({ })();
+    device = require('./device')({ adapter })();
   });
 
   it('expect onData return parsed data', () => {
