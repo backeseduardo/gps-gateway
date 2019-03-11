@@ -1,1 +1,1 @@
-module.exports = require('./device')({ });
+module.exports = (adapter, conn) => require('./device')({ adapter, conn });

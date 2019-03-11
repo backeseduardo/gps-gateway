@@ -1,15 +1,11 @@
 module.exports = (deps) => {
-  const { adapter } = deps
+  const { adapter, conn } = deps
 
-  return (conn) => ({
+  return {
   
-    onData: data => adapter.onData(data),
+    data: data => adapter(conn).data(data),
 
-    end: () => new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve();
-      }, 2000);
-    })
+    end: () => adapter(conn).end()
 
-  })
+  }
 }

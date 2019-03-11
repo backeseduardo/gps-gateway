@@ -1,31 +1,27 @@
 
 describe('device.test.js', () => {
 
-  let device = null;
-  let adapter = require('./adapter/adapter01')()
+  let device = null
+  let adapter = conn => ({
+    data: data => Promise.resolve(data),
+    end: () => Promise.resolve()
+  })
   beforeEach(() => {
-    device = require('./device')({ adapter })();
+    device = require('./device')({ adapter, conn: jest.fn() })
   });
 
-  it('expect onData return parsed data', () => {
-    return device.onData('01test')
+  it('expect data return data', () => {
+    return device.data('01test')
     .then(result => {
-      expect(result).toBe('test');
-    });
-  });
-
-  it('expect onData to reject parse data', () => {
-    return device.onData('test')
-    .catch(err => {
-      expect(err).toBeTruthy();
-    });
-  });
+      expect(result).toBe('01test')
+    })
+  })
 
   it('expect end to return a promise', () => {
     return device.end()
     .then(result => {
-      expect(true).toBe(true);
-    });
-  });
+      expect(true).toBe(true)
+    })
+  })
 
-});
+})

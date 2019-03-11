@@ -1,30 +1,30 @@
-module.exports = (deps) => (port, adapter) => {
+module.exports = (deps) => (port, adapterString) => {
   // the adapter could be passed as a dependency too
   const { net } = deps;
   const connections = [];
   const availableAdapters = {
-    rst1000: './adapter/rst1000'
+    adapter01: './adapter/adapter01'
   }
 
   const server = net.createServer(conn => {
-    const adapter = require(availableAdapters[adapter])()
+    const adapter = require(availableAdapters[adapterString])
     // it will pass the adapter as device dependency
-    conn.device = require('./device')({ adapter })(conn);
+    conn.device = require('./device.factory')(adapter, conn);
 
     connections.push(conn);
     console.log('new connection');
   
     conn.on('data', async data => {
       try {
-        await conn.device.onData(data);
+        await conn.device.data(data);
       } catch (e) {
         console.log(`[error] ${e}`);
+        await conn.device.end();
         conn.end();
       }
     });
   
     conn.on('end', async () => {
-      await conn.device.end();
       connections.splice(connections.indexOf(conn), 1);
       console.log('connection closed');
     });
