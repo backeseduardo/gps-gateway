@@ -1,0 +1,1 @@
+module.exports = (db) => require('./equipment')({ db });
