@@ -3,8 +3,7 @@ module.exports = (deps) => (port, adapterString) => {
   const { net } = deps;
   const connections = [];
   const availableAdapters = {
-    adapter01: './adapter/adapter01',
-    e3: './adapter/e3'
+    adapter01: './adapter/adapter01'
   }
 
   const server = net.createServer(conn => {
