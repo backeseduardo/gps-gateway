@@ -20,6 +20,7 @@ CREATE TABLE Equipamento (
 CREATE TABLE Posicao (
   id          INTEGER PRIMARY KEY AUTOINCREMENT,
   veiculoId   INTEGER NOT NULL,
+  data        DATE NOT NULL,
   lat         NUMERIC,
   lng         NUMERIC,
   CONSTRAINT Posicao_fk_veiculoId FOREIGN KEY (veiculoId)
