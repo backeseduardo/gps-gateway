@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "watch": "jest --watch src/*.js",
-    "start": "nodemon index.js --port=8080 --adapter=e3",
+    "start": "nodemon index.js --port=8080 --adapter=adapter01",
     "lint": "eslint ."
   },
   "repository": {
