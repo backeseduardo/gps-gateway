@@ -12,6 +12,7 @@ CREATE TABLE Equipamento (
   serial     TEXT     NOT NULL,
   veiculoId  INTEGER,
   isBackup   NUMERIC  NOT NULL DEFAULT 0,
+  chipNumero NUMERIC,
   CONSTRAINT Equipamento_fk_veiculoId FOREIGN KEY (veiculoId)
     REFERENCES Veiculo (id) ON UPDATE CASCADE ON DELETE CASCADE
   CONSTRAINT Equipamento_ck_isBackup CHECK (isBackup IN (0, 1))
