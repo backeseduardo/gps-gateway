@@ -40,11 +40,11 @@ module.exports = (conn) => {
     const serial = packageArray[1];
     const cmd = packageArray[2];
 
-    const result = await services.equipment.getEquipament({
+    const device = await services.equipment.getEquipament({
       serial: serial
     });
 
-    if (!result) {
+    if (!device) {
       throw new Error(`[ADAPTER01] serial ${serial} não cadastrado no sistema`);
     }
 
@@ -54,6 +54,19 @@ module.exports = (conn) => {
       case 'RG': // device -> server: register device on platform
         // *ET,SN,RG,M_SIM#
         // *ET,135790246811221,RG,13691779574#
+        const chipNumber = packageArray[3];
+        services.equipment.updateChipNumber({
+          id: device.id,
+          chipNumber: chipNumber
+        });
+        const t = await services.equipment.getEquipament({
+          id: device.id
+        });
+        console.log(t);
+        // console.log({
+        //   id: device.id,
+        //   chipNumber: chipNumber
+        // });
         break;
       
       case 'HB': // device -> server: heartbeat data, vehicle stopped (10 in 10 minutes), vehicle driving (20 in 20 secs)
