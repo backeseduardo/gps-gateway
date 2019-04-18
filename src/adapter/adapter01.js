@@ -59,14 +59,15 @@ module.exports = (conn) => {
           id: device.id,
           chipNumber: chipNumber
         });
-        const t = await services.equipment.getEquipament({
+        const equipment = await services.equipment.getEquipament({
           id: device.id
         });
-        console.log(t);
-        // console.log({
-        //   id: device.id,
-        //   chipNumber: chipNumber
-        // });
+        
+        if (chipNumber === equipment.chipNumero) {
+          console.log(`[ADAPTER01] RG ${packageArray}`);
+        } else {
+          throw new Error(`[ADAPTER01] ERROR RG ${packageArray}`);
+        }
         break;
       
       case 'HB': // device -> server: heartbeat data, vehicle stopped (10 in 10 minutes), vehicle driving (20 in 20 secs)
@@ -74,6 +75,7 @@ module.exports = (conn) => {
         // *ET,135790246811221,HB,A,050915,0C2A27,00CE5954,04132263,0000,F000,01000000,20,4,0000,00F123,100,200#
         // *ET,358155100181438,HB,A,130208,061a21,81033017,81e35163,0000,0000,00000000,20,100,0000,9514,581#
         gpsData = __extractData(packageArray);
+        await __saveData(gpsData);
         break;
       
       case 'AM': // device -> server: alarm message
@@ -127,7 +129,28 @@ module.exports = (conn) => {
         break;
     }
 
-    console.log(gpsData);
+    // console.log(gpsData);
+  }
+
+  async function __saveData(data) {
+    const equipment = await services.equipment.getEquipament({
+      serial: data.serial
+    });
+
+    if (!equipment) {
+      throw new Error(`[ADAPTER01] ERROR HB serial ${data.serial} not found`);
+    }
+
+    await services.position.save({
+      equipamentoId: equipment.id,
+      veiculoId: equipment.veiculoId,
+      data: `${data.date} ${data.hour}`,
+      lat: data.lat,
+      lng: data.lng,
+      velocidade: data.speed,
+      angulo: data.course,
+      odometro: data.mileage
+    });
   }
 
   function __extractData(packageArray) {
