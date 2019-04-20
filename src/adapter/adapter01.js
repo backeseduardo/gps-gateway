@@ -3,26 +3,6 @@ const services = require('../services/index');
 module.exports = (conn) => {
 
   async function data(data) {
-    await __parse(data);
-    // return new Promise((resolve, reject) => {
-    //   const parsedData = __parse(data)
-
-    //   if (parsedData === false) {
-    //     conn.write('data package invalid, ending connection\r\n')
-    //     reject('data could not be parsed')
-    //   }
-
-    //   conn.write(`package received [${parsedData}]\r\n`)
-      
-    //   resolve(parsedData)
-    // })
-  }
-
-  function end() {
-    return Promise.resolve()
-  }
-
-  async function __parse(data) {
     // *ET,358155100181438,HB,A,130208,061a21,81033017,81e35163,0000,0000,00000000,20,100,0000,9514,581#
     const str = data.toString('ascii').replace('\r', '').replace('\n', '');
 
@@ -74,8 +54,11 @@ module.exports = (conn) => {
         // *ET,SN,HB,A/V,YYMMDD,HHMMSS,Latitude,Longitude,Speed,Course,Status,Signal,Power,oil,LC, altitude ,tolerance#
         // *ET,135790246811221,HB,A,050915,0C2A27,00CE5954,04132263,0000,F000,01000000,20,4,0000,00F123,100,200#
         // *ET,358155100181438,HB,A,130208,061a21,81033017,81e35163,0000,0000,00000000,20,100,0000,9514,581#
+        console.log(`[ADAPTER01] HB ${packageArray}`);
         gpsData = __extractData(packageArray);
         await __saveData(gpsData);
+        // conn.write('data saved');
+        conn.end();
         break;
       
       case 'AM': // device -> server: alarm message
@@ -130,6 +113,10 @@ module.exports = (conn) => {
     }
 
     // console.log(gpsData);
+  }
+
+  function end() {
+    return Promise.resolve()
   }
 
   async function __saveData(data) {
