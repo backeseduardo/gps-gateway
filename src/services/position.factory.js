@@ -1,1 +1,2 @@
-module.exports = (db) => require('./position')({ db });
+const db = require('sqlite')
+module.exports = require('./position')({ db })

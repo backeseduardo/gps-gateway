@@ -11,23 +11,29 @@ module.exports = deps => {
     },
 
     save: (context) => {
-      const sql = `insert into Posicao 
-        (equipamentoId, veiculoId, data, lat, lng, velocidade, angulo, odometro)
-      values 
-        (?, ?, ?, ?, ?, ?, ?, ?)`;
+      // const sql = `insert into Posicao 
+      //   (equipamentoId, veiculoId, data, lat, lng, velocidade, angulo, odometro)
+      // values 
+      //   (?, ?, ?, ?, ?, ?, ?, ?)`;
 
-      const params = [
-        context.equipamentoId,
-        context.veiculoId,
-        context.data,
-        context.lat,
-        context.lng,
-        context.velocidade,
-        context.angulo,
-        context.odometro
-      ];
+      // const params = [
+      //   context.equipamentoId,
+      //   context.veiculoId,
+      //   context.data,
+      //   context.lat,
+      //   context.lng,
+      //   context.velocidade,
+      //   context.angulo,
+      //   context.odometro
+      // ];
 
-      return db.run(sql, params);
+      // return db.run(sql, params);
+
+      return new Promise(resolve => {
+        setTimeout(() => {
+          resolve();
+        }, 2000);
+      })
     }
   }
 };
