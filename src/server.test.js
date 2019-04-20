@@ -13,7 +13,8 @@ describe('server.test.js', () => {
       createServer: jest.fn(() => fakeCreateServer())
     };
     const db = {
-      open: jest.fn()
+      open: jest.fn(),
+      migrate: jest.fn()
     };
     await server({ net, db })(8080);
 
